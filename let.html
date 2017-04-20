@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    (function () {
+        var tmp = 123;
+
+        if (true) {
+            tmp = 'abc'; // ReferenceError
+            let tmp;
+        }
+        //ES6明确规定，如果区块中存在let和const命令，这个区块对这些命令声明的变量，从一开始就形成了封闭作用域。凡是在声明之前就使用这些变量，就会报错。
+        //总之，在代码块内，使用let命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”（temporal dead zone，简称 TDZ）。
+    })();
+
+
+
+    //   let定义的变量遵从块级作用域，不会提升，不会在整个函数域内起作用。
+    (function () {
+//       console.log(b); //Uncaught ReferenceError: b is not defined
+        let b = 3;
+        console.log(b); //3
+    })();
+
+    (function () {
+        console.log(b);//undefined
+        {
+            let b = 3
+        }
+        console.log(b);//undefined 块级作用域
+    })();
+
+
+    (function () {
+        console.log(b);//undefined
+        {
+            var b = 3
+        }
+        console.log(b);//3
+    })();
+
+    /*    var a = [];
+     for (var i = 0; i < 10; i++) {
+     a[i] = function () {
+     console.log(i);
+     };
+     }
+     a[6](); // 10*/
+    //    上面代码中，
+    //    变量i是var声明的，
+    //    在全局范围内都有效，
+    //    所以全局只有一个变量i。
+    //    每一次循环，
+    //    变量i的值都会发生改变，
+    //    而循环内被赋给数组a的function在运行时，
+    //    会通过闭包读到这同一个变量i，
+    //    导致最后输出的是最后一轮的i的值，
+    //    也就是10
+    //    。
+    (function () {
+        var a = [];
+        var b = [];
+        var c = [];
+        for (var i = 0; i < 10; i++) {
+            a[i] = function (j) {
+                return function () {
+                    console.log(j);
+                }
+            }(i);
+
+            b[i] = function () {
+                console.log(i)
+            };
+            (function () {
+                c[i] = function () {
+                    console.log(i);
+                }
+            })();
+        }
+
+        a[6]();
+        b[6]();
+        c[6]();
+    })();
+
+
+    /*而如果使用let
+     ，
+     声明的变量仅在块级作用域内有效
+     ，
+     最后输出的是6
+     。*/
+
+    (function () {
+
+        var a = [];
+        for (let i = 0; i < 10; i++) {
+            a[i] = function () {
+                console.log(i);
+            };
+        }
+        a[6](); // 6
+        console.log(i); //Uncaught ReferenceError: i is not defined
+    })();
+
+    /*上面代码中，
+     变量i是let声明的，
+     当前的i只在本轮循环有效，
+     所以每一次循环的i其实都是一个新的变量，
+     所以最后输出的是6
+     。
+     你可能会问，
+     如果每一轮循环的变量i都是重新声明的，
+     那它怎么知道上一轮循环的值，
+     从而计算出本轮循环的值
+     ？
+     这是因为
+     JavaScript
+     引擎内部会记住上一轮循环的值，
+     初始化本轮的变量i时，
+     就在上一轮循环的基础上进行计算
+     。*/
+
+    /*    ////
+     var tmp = new Date();
+
+     function f() {
+     console.log(tmp);
+     if (false) {
+     var tmp = 'hello world';
+     }
+     }
+
+     f(); // undefined
+     ////*/
+
+    /*
+     var ios = 10;
+     let ioes = 3;
+
+     function aa() {
+     console.log(ios)
+     console.log(ioes)
+     //        var ios = 5;
+     //        let ioes = 4;
+     //        console.log(ios)
+     }
+     aa();
+     console.log(ios)
+     console.log(ioes)
+     */
+
+</script>
+</body>
+</html>

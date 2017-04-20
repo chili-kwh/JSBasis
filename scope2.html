@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    //    ES5 规定，函数只能在顶层作用域和函数作用域之中声明，不能在块级作用域声明。
+//    'use strict';
+//    function f() {
+//        console.log('I am outside!');
+//    }
+//
+//    (function () {
+//        if (false) {
+//            // 重复声明一次函数f
+//            function f() {
+//                console.log('I am inside!');
+//            }
+//        }
+//
+//        f();
+//    }());
+//
+//    {
+//        let t = f();
+//        t = t * t + 1;
+//    }
+
+
+    function a (){
+        return 1;
+    }
+    (function(){
+        console.log(a);// undefined
+        if(true){
+            function a(){
+                return 2;
+            }
+            console.log(a);
+        }
+    })();
+//    如果非严格模式:
+//    'use strict';
+//    相当于:
+
+    (function(){
+        var a;
+        console.log(a); // undefined
+        if(true){
+            a = function (){
+                return 2;
+            }
+        }
+
+    })();
+
+
+
+    //    function f() { console.log('I am outside!'); }
+    //
+    //    (function () {
+    //        function f() { console.log('I am inside!'); }
+    //        if (false) {
+    //        }
+    //        f();
+    //    }());
+
+    /*    ES6
+     声明变量的六种方法
+     ES5
+     只有两种声明变量的方法
+     ：
+     var命令和function命令
+     。
+     ES6除了添加let和const命令
+     ，
+     后面章节还会提到
+     ，
+     另外两种声明变量的方法
+     ：
+     import命令和class命令
+     。
+     所以
+     ，
+     ES6
+     一共有6种声明变量的方法
+     。*/
+
+    /*为了保持兼容性
+    ，
+    var命令和function命令声明的全局变量
+    ，
+    依旧是顶层对象的属性
+    ；
+    另一方面规定
+    ，
+    let命令
+    、
+    const命令
+    、
+    class命令声明的全局变量
+    ，
+    不属于顶层对象的属性
+    。
+    也就是说
+    ，
+    从ES6开始
+    ，
+    全局变量将逐步与顶层对象的属性脱钩
+    。*/
+
+
+</script>
+</body>
+</html>

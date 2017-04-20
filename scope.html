@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    //http://blog.csdn.net/limu693992297/article/details/51576852
+
+    /*
+     js作用域: 全局作用域, 函数作用域
+     语句块，如if语言，不创建新的作用域。仅仅函数创建新作用域。
+
+     js中没有块级作用域，概念：“{}”中间的部分都是块级作用域
+     所以js： for while if 没有局部作用域
+
+     1.全局变量：声明在函数外部的变量（所有没有var直接赋值的变量都属于全局变量）
+
+     2.局部变量：声明在函数内部的变量
+
+    块级作用域
+
+    概念“{}”中间的部分都是块级作用域ex：for while if ，js中没有块级作用域，但是可以用闭包实现类似功能。
+
+
+
+*/
+
+    if (z = 1) {
+        var x = 2
+    }
+    console.log(x)  //2
+    console.log(z)  //1
+
+    ////////////
+
+    for(var y = 0; y < 4; y++){
+        var w = 1;
+    }
+    console.log(y)  //4
+    console.log(w)  //1
+    //let: 块级作用域， 猜测：？？let的块级作用域主要用于for while if ？？
+    for (let u = 0; u < 4; u++) {
+        console.log("u: "+u) //0, 1, 2, 3
+//        console.log(v)//Uncaught ReferenceError: v is not defined没有变量提升
+        let v = 1;
+        console.log(v) //1
+    }
+//    console.log(u)  //Uncaught ReferenceError: u is not defined
+//    console.log(v)  //Uncaught ReferenceError: v is not defined
+   /* 变量i是let声明的，
+    当前的i只在本轮循环有效，
+    所以每一次循环的i其实都是一个新的变量，*/
+
+
+    ////////////
+
+    console.log(c);//输出undefined
+//    全局变量在整个上下文都有效只是在没有赋值之前调用，会输出undefined
+    //如果是let，会报Uncaught ReferenceError: a is not defined： 因为 不存在变量提升
+
+
+    var c = 3;
+    function test() {
+        var a = 1;
+        b = 2;
+    }
+    test();
+//    console.log(a);//Uncaught ReferenceError: a is not defined
+    //函数作用域是针对局部变量来说的，在函数中定义的变量在函数外不能获取
+
+    console.log(b);//输出2
+    console.log(c);//输出3
+/*
+ JS中变量申明分显式申明和隐式申明。
+
+ vari=100;//显式申明
+
+ i=100;//隐式申明
+    在函数中使用var关键字进行显式申明的变量是做为局部变量,
+    而没有用var关键字,
+    使用直接赋值方式声明的是全局变量。
+
+    当我们使用访问一个没有声明的变量时,
+    JS会报错。
+
+    而当我们给一个没有声明的变量赋值时,
+    JS不会报错,
+    相反它会认为我们是要隐式申明一个全局变量,
+    这一点一定要注意
+    。
+*/
+
+
+/*
+    ////////////
+    function test() {
+        for (var i = 0; i < 3; i++) {
+            var what = "haha";
+        }
+        console.log("f")
+    }
+    test();
+    //    console.log(what);
+    function enen() {
+        var that = "lala";
+    }
+    enen();
+    //    console.log(that);
+    function test() {
+        for (var i = 0; i < 5; i++) {
+            var what = "haha";
+        }
+        console.log("s")
+        console.log(what);
+    }
+    test();
+
+    */
+</script>
+</body>
+</html>

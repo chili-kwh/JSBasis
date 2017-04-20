@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    (function () {
+//        foo(); // TypeError "foo is not a function"
+        bar(); // valid
+//        baz(); // TypeError "baz is not a function"
+//        spam(); // ReferenceError "spam is not defined"
+
+        var foo = function () {
+        }; // 匿名函数表达式（“foo”会被提升）
+        function bar() {
+        }; // 函数声明（“bar”和函数体会被提升）
+        var baz = function spam() {
+        }; // 命名函数表达式（仅“baz”会被提升）
+
+        foo(); // valid
+        bar(); // valid
+        baz(); // valid
+//        spam(); // ReferenceError "spam is not defined"
+
+
+        var a = function b() {
+            console.log("ii")
+        };
+        a();
+        b();//Uncaught ReferenceError: b is not defined
+        //你可以在函数表达式给中给函数命名，用这样的语法不能完成一个函数声明
+    })();
+
+    (function () {
+        var a = [];
+        var b = [];
+        var t = 0;
+        for (var i = 0; i < 10; i++) {
+            console.log(i);
+            //这里可以正确的访问i(0~9).
+            //由于for循环并没有自己形成一个块级作用域.导致了我们顺着作用域链去访问i的时候就访问到了for循环定义的i.
+
+            b[i] = function () {
+                console.log(i)
+            };
+            //function中不存在i,于是顺着作用域链去window作用域找得到了i.
+            //我们这个时候输出的i就是这个i.由于i在跳出循环最后一次的+1,使得i变成了10
+
+            ///////
+
+            //这里用一个立即执行函数包裹我们的代码,就可以形成一个作用域,同时我们为其传值i.如下:
+            //由于这个立即执行函数引用着数值0~9,当我们执行函数a[i]的时候,会顺着作用域链先找到这个立即执行函数的作用域.
+            //立即执行函数维护着0~9的数值引用,我们就可以在函数a[i]中正确的输出i的值.
+            (function (j) {
+                a[j] = function () {
+                    console.log(j)
+                }
+            })(i);
+
+        }
+
+        a[6](); //6
+        b[6](); //10
+
+    })()
+
+
+</script>
+</body>
+</html>

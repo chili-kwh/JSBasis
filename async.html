@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+//    var output = function (i) {
+//        setTimeout(function() {
+//            console.log(new Date, i);
+//        }, 1000);
+//    };
+//
+//    for (var i = 0; i < 5; i++) {
+//        output(i);  // 这里传过去的 i 值被复制了
+//    }
+//
+//    console.log(new Date, i);
+
+//    for (var i = 0; i < 5; i++) {
+//        con(1, con(2))
+//    }
+
+//    function con(i, callback){
+//        setTimeout(function() {
+//            console.log(i);
+//            callback&&callback()
+//        }, 1000);
+//    }
+
+const sleep = (timeountMS) => new Promise((resolve) => {
+    setTimeout(resolve, timeountMS);
+});
+
+(async () => {  // 声明即执行的 async 函数表达式
+    for (var i = 0; i < 5; i++) {
+        if (i > 0) {
+            await sleep(1000);
+        }
+        console.log(new Date, i);
+    }
+
+    await sleep(1000);
+    console.log(new Date, i);
+})();
+
+
+</script>
+</body>
+</html>

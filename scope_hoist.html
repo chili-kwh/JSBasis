@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+
+    /*
+     在JavaScript中，作用域中的名字（属性名）有四种基本来源：
+
+     语言定义：默认所有作用域都有属性名this和arguments。
+     形参：函数可能有形式参数，其作用域是整个函数体内部。
+     函数声明：类似于function foo() {}这种形式。
+     变量声明：var foo;这种形式的代码。
+     函数声明和变量声明总是被JavaScript解释器无形中移动到（提升）包含他们的作用域顶部。函数参数和语言定义的名称明显总是存在。
+     */
+
+    /*
+     名字解析顺序
+     http://www.2cto.com/kf/201405/297250.html
+     //－－－－－－－－－对错有待考证
+
+     需要记住的最重要的特殊情况是名字的解析顺序
+     。
+     记住作用域中的名字有四种来源
+     。
+     上面我列出他们的顺序是他们被解析的顺序   //对错有待考证
+     。
+     一般来说
+     ，
+     如果一个名字已经被定义过
+     ，
+     那么它不会在被其他有相同名字的属性重写
+     。
+     这意味着函数声明优先于变量声明
+     。
+     这并不意味着为名字赋值的过程将不工作
+     ，
+     仅仅声明的过程会被忽略
+     。
+     有几个例外情况
+     ：
+
+     函数的内置变量arguments比较奇怪
+     。
+     它看起来是在普通的函数参数之后才声明
+     ，
+     其实是在函数声明之前
+     。
+     如果参数里面有名称为arguments的参数
+     ，
+     它会比内置的那个优先级高
+     ，
+     即使它是undefined
+     。
+     所以不要使用arguments作为为函数参数的名称
+     。
+     尝试使用this作为标示符的地方都会造成一个语法错误
+     。
+     这是一个很好的特性
+     。
+     如果多个参数具有相同的名字
+     ，
+     那么最后一个参数会优先于先前的
+     ，
+     即使它是undefined
+     //－－－－－－－－－对错有待考证
+     。*/
+
+    (function () {
+//        'use strict';
+        console.log(bbb)
+        //function bbb(){}
+        //严格模式下：Uncaught ReferenceError: bbb is not defined ????
+        try {
+            var c = aaa + 1;
+        } catch (e) {
+            console.log(e);  //ReferenceError: aaa is not defined
+            function bbb() {
+            }
+        }
+        console.log(bbb) //function bbb(){}
+//        console.log(e) //Uncaught ReferenceError: e is not defined
+    })();
+    ////////////
+    //    function z() {
+    //        return 1111;
+    //    }
+    //直接在函数体内定义的函数声明，整个都会提前；
+    //但是在块中定义的函数声明，只会提升其声明部分，不分配实际的内存空间。
+    (function () {
+//        'use strict';
+        console.log(z);
+        // 非严格模式下：undefined
+        // 严格模式下：function z(){return 111;} 说明严格模式，提升到顶层？？？
+        if (true) {
+            console.log(y); //undefined
+            console.log(z); //function z(){return 1;}
+            function z() {
+                return 1;
+            }
+
+            var y = function () {
+                return 2;
+            };
+            console.log(y); //function (){return 2;}
+            console.log(z); //function z(){return 1;}
+        }
+        console.log(z);
+        // 非严格模式下：function z(){return 1}
+        // 严格模式下：外层function z(){return 111;} 说明？？？
+    })();
+    /////
+
+    //    var foo = 1;
+    (function () {
+        function bar() {
+            console.log(foo); //undefined
+
+            if (!foo) {
+                var foo = 10;
+            }
+            console.log(foo);
+        }
+
+        bar();//10
+    })();
+
+    (function () {
+        var a = 1;
+
+        function b() {
+            a = 10;
+            return;
+            function a() {
+            }
+        }
+
+        b();
+        console.log(a);//1
+    })();
+
+    (function () {
+        function test() {
+            foo(); //this will run!
+            var foo = function () { // 将函数表达式赋值给本地变量“foo”
+                console.log("this won't run!");
+            }
+
+            function foo() { //  'bar'函数声明，分配“bar”名字
+                console.log("this will run!");
+            }
+        }
+
+        test();
+    })();
+
+    /*function test() {
+     foo(); // 类型错误 “foo 不是一个函数”
+     bar(); // “这能运行”
+     var foo = function () { // 将函数表达式赋值给本地变量“foo”
+     console.log("this won't run!");
+     }
+     function bar() { //  'bar'函数声明，分配“bar”名字
+     console.log("this will run!");
+     }
+     }
+     test();*/
+
+
+</script>
+</body>
+</html>

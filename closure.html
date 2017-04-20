@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+//https://juejin.im/post/58f1fa6a44d904006cf25d22
+    (function () {
+        for (var i = 0; i < 5; i++) {
+            setTimeout(function () {
+                console.log(new Date, i);
+            }, 1000);
+        }
+    })();
+
+    (function () {
+        for (var i = 0; i < 5; i++) {
+            (function (j) {
+                setTimeout(function () {
+                    console.log(new Date, j);
+                }, 1000);
+            })(i)
+        }
+    })();
+    //==>
+
+    (function () {
+        function test(i) {
+            setTimeout(function () {
+                console.log(i);
+            }, 1000);
+        }
+        for (var i = 0; i < 5; i++) {
+            test(i)
+        }
+    })();
+
+    (function () {
+        for (var i = 0; i < 5; i++) {
+            setTimeout(function (j) {
+                console.log(new Date, j);
+            }, 1000, i); //按值传递（Pass by Value）
+        }
+    })();
+
+    (function () {
+        for (let i = 0; i < 5; i++) {
+            setTimeout(function () {
+                console.log(new Date, i);
+            }, 1000);
+        }
+    })();
+
+
+
+</script>
+</body>
+</html>
