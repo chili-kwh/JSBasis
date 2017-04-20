@@ -1,2 +1,2 @@
 # JSBasis
-研究下JS基础
+JS基础
