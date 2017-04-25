@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    //预解析函数的时候，如果函数名和变量名相同时，函数会覆盖变量，
+    (function () {
+//        console.log(a);          //function(){var a=10;}
+        function a() {
+            var a = 10;
+        }
+
+        var a = 20;
+
+//        console.log(a);         //20
+    })();
+
+    (function () {
+//        console.log(a);          //function(){var a=10;}
+        var a = 20;
+
+        function a() {
+            var a = 10;
+        }
+
+//        console.log(a);         //20
+    })();
+
+    (function () {
+        console.log(a);               // function a (){ console.log(4); }
+        var a = 1;
+        console.log(a);              // 1
+        function a() {
+            console.log(2);
+        }
+//        a(); //Uncaught TypeError: a is not a function
+        console.log(a);              // 1
+        var a = 3;
+        console.log(a);              // 3
+        function a() {
+            console.log(4);
+        }
+
+        console.log(a);              // 3
+    })();
+
+    (function () {
+        var a = 1;
+        function fn1(a) { //函数内部的参数a，相当于在函数执行最前面定义了一个var a
+            console.log(a);                 // undefined
+            a = 2;
+            console.log(a);                 //2
+        }
+        fn1();
+        console.log(a);                    // 1
+    })();
+
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+
+    /*
+     this
+
+     In most cases, the value of this is determined by how a function is called.
+     It can't be set by assignment during execution, and it may be different each time the function is called.
+     简言之： this 总是指向调用该函数的对象。
+     */
+
+    //    由于匿名函数的作用域是全局性的，因此闭包的this通常指向全局对象window：
+
+    /*
+     在闭包中使用this时要特别注意，稍微不慎可能会引起问题。通常我们理解this对象是运行时基于函数绑定的，全局函数中this对象就是window对象，
+     而当函数作为对象中的一个方法调用时，this等于这个对象。由于匿名函数的作用域是全局性的，因此闭包的this通常指向全局对象window：
+     */
+    /*
+     调用object.getScope()()返回值为global而不是我们预期的local，前面我们说过：
+     闭包中内部匿名函数会携带外部函数的作用域，那为什么没有取得外部函数的this呢？每个函数在被调用时，都会自动创建this和arguments，
+     内部匿名函数在查找时，搜索到活跃对象中存在我们想要的变量，因此停止向外部函数中的查找，也就永远不可能直接访问外部函数中的变量了。
+     总之，在闭包中函数作为某个对象的方法调用时，要特别注意，该方法内部匿名函数的this指向的是全局变量。
+     幸运的是我们可以很简单的解决这个问题，只需要把外部函数作用域的this存放到一个闭包能访问的变量里面即可
+     */
+
+    var scope = "global";
+    (function () {
+        var object = {
+            scope: "local",
+            getScope: function () {
+                console.log(this); //Object {scope: "local", getScope: function}
+                var that = this;
+                return function () {
+                    console.log(this); //Window
+                    console.log(this.scope); //global
+                    console.log(that);  ////Object {scope: "local", getScope: function}
+                    console.log(that.scope); //local
+                }
+            }
+        };
+        object.getScope()()
+    })();
+
+
+
+    (function () {
+        var id = 21;
+
+        function foo() {
+            setTimeout(function () {
+                console.log(this) //Window
+                console.log('id:', this.id); //id: undefined
+            }, 100);
+        }
+
+//        var id = 21;
+        foo.call({id: 42});
+    })();
+
+    //箭头函数：函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。
+    (function () {
+        function foo() {
+            setTimeout(() => {
+                console.log(this) //Object {id: 42}
+                console.log('id:', this.id); //id: 42
+            }, 100);
+        }
+
+        var id = 21;
+        foo.call({id: 42});
+    })();
+    (function () {
+        'use strict';
+        console.log(this); //undefined
+        //对于一个开启严格模式的函数，指定的 this 不再被封装为对象，而且如果没有指定 this 的话它值是 undefined.
+        //严格模式: 禁止this关键字指向全局对象
+
+    })();
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //对于数字、字符串等是将它们的值传递给了函数参数，函数参数的改变不会影响函数外部的变量。
+    //对于数组和对象等是将对象(数组)的变量的值传递给了函数参数，这个变量保存的指向对象(数组)的地址。
+    // 当函数改变这个地址指向的对象(数组)的内容时，同时也改变了函数外部变量指向的对象(数组)的内容；
+    // 当函数改变的是变量的地址时，实际就与函数外部的变量失去了联系，变成了完全不同的对象了，不会对函数外部对象造成改变。
+    function test(i) {
+        i = i + 1;
+        console.log("i"+i)
+    }
+    var io = 3;
+    test(io);
+    console.log("io"+io);
+
+    function test2(ob) {
+        console.log("ob"+ob.a)
+        ob.a ++;
+        console.log("ob"+ob.a)
+    }
+    var obj = {a:3};
+    test2(obj);
+    console.log("obj"+obj.a);
+</script>
+</body>
+</html>

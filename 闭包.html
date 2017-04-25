@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    (function () {
+        var a = [
+            {name: "a"},
+            {name: "b"},
+            {name: "c"},
+            {name: "d"},
+        ];
+
+        a.map((elem, i)=>{
+            elem.index = i;
+        })
+
+        console.log(a)
+        console.log(i) // i is not defined
+
+
+    })();
+</script>
+</body>
+</html>

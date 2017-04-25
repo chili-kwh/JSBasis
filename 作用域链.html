@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    //嵌套作用域变量搜索规则：当在函数中引用一个变量时，JS会搜索当前函数作用域，如果没有找到则搜索其上层作用域，一直到全局作用域。
+    (function () {
+        var  v1 = 'global';
+        var f1 = function(){
+            console.log(v1);   //global
+        };
+        f1();
+        var f2 = function(){
+            var v1 ='local';
+            console.log(v1); //local
+            (function () {
+                f1(); //global
+            })()
+            f1(); //global
+            //词法作用域规则：函数的嵌套关系是定义时决定的，而非调用时决定的，即词法作用域，即嵌套关系是由词法分析时确定的，而非运行时决定。
+            //WTF??
+        };
+        f2();
+    })();
+
+
+    (function () {
+
+    })();
+    (function () {
+
+    })();
+    (function () {
+
+    })();
+    (function () {
+
+    })();
+
+
+
+</script>
+</body>
+</html>
